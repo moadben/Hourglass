@@ -14,6 +14,7 @@ chrome.runtime.onMessage.addListener(
       if(isIn == 0){
         var website = {
           webname: firstHref,
+          favicon: ("\"http://www.google.com/s2/favicons?domain=" + firstHref + "\""),
           start_time: new Date().getTime(),
           total_time: 0 };
       	request.times.push(website);
