@@ -1,16 +1,22 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Tracker",
+  "description": "Ya bitch bouncin' on my dick like a jackhammer, skrt skrt.",
   "version": "1.0",
+  "icons": {
+    "16": "hehe.jpg",
+    "48": "hehe.jpg",
+    "128": "hehe.jpg"
+    },
 
    "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
 
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["jquery-2.2.1.min.js","background.js"]
   },
   "content_scripts": [
     {

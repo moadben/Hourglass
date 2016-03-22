@@ -6,6 +6,7 @@ chrome.runtime.onMessage.addListener(
       var firstHref = window.location.hostname;
       for(i = 0; i<request.times.length; i++){
       	if(request.times[i].webname == firstHref){
+          times[i].start_time = new Date().getTime()
       		isIn = 1;
       		break;
       	}
