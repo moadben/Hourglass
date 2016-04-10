@@ -7,14 +7,37 @@ function backgroundfunction(){
   return times;
 }
 
+chrome.windows.onFocusChanged.addListener(function(windowId) {
+    initTime();
+});
+
+chrome.windows.onRemoved.addListener(function(windowId){
+  chrome.windows.getAll(function(windows){
+    if(windows.length == 0){
+      console.log("Shaaaaaaaaky Warriah");
+      chrome.storage.sync.set({'stored_times': times});
+    }
+  });
+});
+
+chrome.windows.onCreated.addListener(function(windowId){
+  chrome.windows.getAll(function(windows){
+    if(windows.length == 1){
+      console.log("Snaaaaaaaaky Warriah");
+      chrome.storage.sync.get(function(items){
+        times = items.stored_times;
+      });
+    }
+  });
+});
 
 chrome.tabs.onUpdated.addListener(function(tab) {
   updateTime();
 
   chrome.tabs.query({active: true, currentWindow: true, 'lastFocusedWindow': true}, function(tabs) {
     activeTab = tabs[0];
-    while(!activeTab.id){
-      initTime();
+    if(tabs.length == 0){
+      return;
     }
     chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
@@ -25,8 +48,8 @@ chrome.tabs.onActivated.addListener(function(tab) {
 
   chrome.tabs.query({active: true, currentWindow: true, 'lastFocusedWindow': true}, function(tabs) {
     activeTab = tabs[0];
-     while(!activeTab.id){
-      initTime();
+     if(tabs.length == 0){
+      return;
     }
      chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
@@ -37,8 +60,8 @@ chrome.tabs.onCreated.addListener(function(tab) {
 
   chrome.tabs.query({active: true, currentWindow: true, 'lastFocusedWindow': true}, function(tabs) {
     activeTab = tabs[0];
-     while(!activeTab.id){
-      initTime();
+    if(tabs.length == 0){
+      return;
     }
      chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
@@ -49,8 +72,8 @@ chrome.tabs.onRemoved.addListener(function(tab) {
 
   chrome.tabs.query({active: true, currentWindow: true, 'lastFocusedWindow': true}, function(tabs) {
   activeTab = tabs[0];
-  while(!activeTab.id){
-      initTime();
+  if(tabs.length == 0){
+      return;
     }
    // chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });

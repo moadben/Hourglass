@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Tracker",
-  "description": "Ya bitch bouncin' on my dick like a jackhammer, skrt skrt.",
+  "description": "Free Libya bro.",
   "version": "1.0",
   "icons": {
     "16": "hehe.jpg",
@@ -25,6 +25,8 @@
     }
   ],
   "permissions": [
+    "storage",
+    "idle",
     "tabs",
     "storage",
     "activeTab",
