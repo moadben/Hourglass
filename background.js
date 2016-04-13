@@ -5,8 +5,7 @@ var timesIndex;
 var currentDomain;
 
 function backgroundfunction_times(){
-  times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
-  times[timesIndex].start_time = new Date().getTime();
+  updateTime();
   chrome.storage.sync.set({'stored_times': times});
   return times;
 }
@@ -18,7 +17,7 @@ chrome.windows.onFocusChanged.addListener(function(windowId) {
 chrome.windows.onCreated.addListener(function(windowId){
   chrome.tabs.query({active: true, currentWindow: true, 'lastFocusedWindow': true}, function(tabs) {
     activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times, "topten":topten});
+    chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
       
 });
@@ -39,7 +38,7 @@ chrome.tabs.onUpdated.addListener(function(tab) {
     if(tabs.length == 0){
       return;
     }
-    chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times, "topten":topten});
+    chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
 });
 
@@ -51,7 +50,7 @@ chrome.tabs.onActivated.addListener(function(tab) {
      if(tabs.length == 0){
       return;
     }
-     chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times, "topten": topten});
+     chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
 });
 
@@ -63,7 +62,7 @@ chrome.tabs.onCreated.addListener(function(tab) {
     if(tabs.length == 0){
       return;
     }
-     chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times, "topten": topten});
+     chrome.tabs.sendMessage(activeTab.id, {"message": "tab_changed", "times": times});
   });
 });
 
@@ -82,7 +81,6 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if( request.message === "track_tab" ) {
       times = request.times;
-      topten = request.topten;
       currentDomain = request.url;
       // alert(request.url);
       return true;
