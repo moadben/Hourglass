@@ -1,6 +1,6 @@
 (function () {
     var data = chrome.extension.getBackgroundPage();
-    var times = data.backgroundfunction();
+    var times = data.backgroundfunction_times();
     console.log(times);
     var newHTML = [];
     newHTML.push('<ul>');
