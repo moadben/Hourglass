@@ -5,7 +5,8 @@ var timesIndex;
 var currentDomain;
 
 function backgroundfunction_times(){
-  updateTime();
+  times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
+  times[timesIndex].start_time = new Date().getTime();
   chrome.storage.sync.set({'stored_times': times});
   return times;
 }
@@ -82,6 +83,7 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "track_tab" ) {
       times = request.times;
       currentDomain = request.url;
+      timesIndex = times.length-1;
       // alert(request.url);
       return true;
     }
@@ -114,7 +116,6 @@ function initTime(){
           times[i].start_time = new Date().getTime();
           timesIndex = i;
           var cool = (times[i].webname + ": " + times[i].total_time/1000);
-          chrome.storage.sync.set({'stored_times': times});
           return;
         }
       }
