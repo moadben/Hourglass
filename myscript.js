@@ -4,10 +4,12 @@ chrome.runtime.onMessage.addListener(
      if( request.message === "tab_changed" ) {
       var isIn = 0;
       var firstHref = window.location.hostname;
+      var index;
       for(i = 0; i<request.times.length; i++){
         if(request.times[i].webname == firstHref){
           request.times[i].start_time = new Date().getTime();
           isIn = 1;
+          index = i;
           // alert("I know I've been got a long time bot");
         }
       }
@@ -18,12 +20,13 @@ chrome.runtime.onMessage.addListener(
           start_time: new Date().getTime(),
           total_time: 0 };
         request.times.push(website);
+        index = request.times.length-1;
       }
 
       //console.log(firstHref);
       console.log("Hello");
       // alert("I'm back and I want what is mine");
-      chrome.runtime.sendMessage({"message": "track_tab", "url": firstHref, "times":request.times});
+      chrome.runtime.sendMessage({"message": "track_tab", "url": firstHref, "times":request.times, "index": index});
   }
    }
 );

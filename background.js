@@ -83,7 +83,7 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "track_tab" ) {
       times = request.times;
       currentDomain = request.url;
-      timesIndex = times.length-1;
+      timesIndex = request.index;
       // alert(request.url);
       return true;
     }
