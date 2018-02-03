@@ -2,15 +2,14 @@
 var chart = [];
 var times = {};
 var activeTab;
-var timesIndex;
+var timesIndex = "";
 var currentDomain;
 
 function backgroundfunction_times(){
-  return {"times":times};
-  // times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
-  // times[timesIndex].start_time = new Date().getTime();
-  // chrome.storage.sync.set({'stored_times': times});
-  // return {"times": times, "chart": chart};
+  times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
+  times[timesIndex].start_time = new Date().getTime();
+  chrome.storage.sync.set({'stored_times': times});
+  return {"times": times, "chart": chart};
 }
 
 chrome.windows.onFocusChanged.addListener(function(windowId) {
@@ -27,7 +26,6 @@ chrome.windows.onCreated.addListener(function(windowId){
 
 chrome.runtime.onStartup.addListener(function(){
       chrome.storage.sync.get('stored_times',function(items){
-        console.log("Shaaaaaaaaky Warriah");
         times = items.stored_times;
         alert(items.stored_times);
       });
@@ -85,18 +83,17 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "track_tab" ) {
       times = request.times;
       currentDomain = request.url;
+      timesIndex = request.index;
       if(timesIndex != request.index){
         chart.push([{'x': times[timesIndex].webname, "y": (times[timesIndex].total_time -times[timesIndex].prev_total_time)}]);
       }
-      timesIndex = request.index;
-      alert(request.url);
       return true;
     }
   }
 );
 
 function updateTime(){
-  if(times.length == 0){
+  if(Object.keys(times).length == 0){
     return;
   }
   times[currentDomain].total_time = times[currentDomain].total_time + (new Date().getTime() - times[currentDomain].start_time);
@@ -109,7 +106,7 @@ function updateTime(){
 }
 
 function initTime(){
-  if(times.length == 0){
+  if(Object.keys(times).length == 0){
     return;
   }
   times[currentDomain].start_time = new Date().getTime();

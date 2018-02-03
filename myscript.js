@@ -8,7 +8,6 @@ chrome.runtime.onMessage.addListener(
      if( request.message === "tab_changed" ) {
       var firstHref = window.location.hostname;
       var fav = firstHref;
-      console.log(firstHref);
 
       // special use cases for google domains so we can grab a favicon
       if(firstHref.includes("www.google")){
