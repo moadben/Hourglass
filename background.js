@@ -85,8 +85,10 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "track_tab" ) {
       times = request.times;
       currentDomain = request.url;
-      chart.push([times[timesIndex].webname, (times[timesIndex].total_time -times[timesIndex].prev_total_time)]);
-      timesIndex = request.index;
+      if(timesIndex != request.index){
+        chart.push([times[timesIndex].webname, (times[timesIndex].total_time -times[timesIndex].prev_total_time)]);
+      }
+        timesIndex = request.index;
       // alert(request.url);
       return true;
     }
