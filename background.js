@@ -1,10 +1,11 @@
 var times = [];
 var topten = [];
 var activeTab;
-var timesIndex;
+var timesIndex = 0;
 var currentDomain;
 
 function backgroundfunction_times(){
+  console.log("yo....")
   times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
   times[timesIndex].start_time = new Date().getTime();
   chrome.storage.sync.set({'stored_times': times});
@@ -25,7 +26,7 @@ chrome.windows.onCreated.addListener(function(windowId){
 
 chrome.runtime.onStartup.addListener(function(){
       chrome.storage.sync.get('stored_times',function(items){
-        console.log("Snaaaaaaaaky Warriah");
+        console.log("Shaaaaaaaaky Warriah");
         times = items.stored_times;
         alert(items.stored_times);
       });
