@@ -23,7 +23,8 @@ chrome.runtime.onMessage.addListener(
           webname: firstHref,
           favicon: ("\"http://www.google.com/s2/favicons?domain=" + fav + "\""),
           start_time: new Date().getTime(),
-          total_time: 0 };
+          total_time: 0,
+          prev_total_time: 0 };
         request.times.push(website);
         index = request.times.length-1;
       }

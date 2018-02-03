@@ -1,11 +1,12 @@
 (function () {
     var data = chrome.extension.getBackgroundPage();
-    var times = data.backgroundfunction_times();
-    console.log(times);
+    var objs = data.backgroundfunction_times();
+    console.log(objs);
     var newHTML = [];
     newHTML.push('<ul>');
-	for (var i = 0; i < times.length; i++) {
-	    newHTML.push('<li style=\"border-bottom:1px, solid, black\"">' + '<img src=' + times[i].favicon + '/>' + times[i].webname +": " + times[i].total_time/1000 + '</li>');
+	for (var i = 0; i < objs.length; i++) {
+	    newHTML.push('<li style=\"border-bottom:1px, solid, black\"">' + '<img src=' + objs.times[i].favicon + '/>' + objs.times[i].webname +": " + objs.times[i].total_time/1000 + '</li>');
+        newHTML.push('<li style=\"border-bottom:1px, solid, black\"">' + '<img src=' + objs.chart[i].favicon + '/>' + objs.chart[i].webname +": " + objs.chart[i].total_time/1000 + '</li>');
 	}
 	newHTML.push('</ul>')
 	$("div.curr").html(newHTML);

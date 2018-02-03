@@ -1,5 +1,6 @@
+
+var chart = [];
 var times = [];
-var topten = [];
 var activeTab;
 var timesIndex = 0;
 var currentDomain;
@@ -9,7 +10,7 @@ function backgroundfunction_times(){
   times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
   times[timesIndex].start_time = new Date().getTime();
   chrome.storage.sync.set({'stored_times': times});
-  return times;
+  return {"times": times, "chart": chart};
 }
 
 chrome.windows.onFocusChanged.addListener(function(windowId) {
@@ -84,6 +85,7 @@ chrome.runtime.onMessage.addListener(
     if( request.message === "track_tab" ) {
       times = request.times;
       currentDomain = request.url;
+      chart.push([times[timesIndex].webname, (times[timesIndex].total_time -times[timesIndex].prev_total_time)]);
       timesIndex = request.index;
       // alert(request.url);
       return true;
