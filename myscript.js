@@ -2,12 +2,10 @@
 // resetting the start time of a previously visited webpage or appending a new webpage object if
 // it is unknown
 
-
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // check request message
      if( request.message === "tab_changed" ) {
-      var isIn = 0;
       var firstHref = window.location.hostname;
       var fav = firstHref;
       console.log(firstHref);
@@ -24,30 +22,25 @@ chrome.runtime.onMessage.addListener(
 
       // Loop through to check if the website we're adding is already in the list, if so
       // just edit the time and dont append the webname to overall time object
-      var index;
-      for(i = 0; i<request.times.length; i++){
-        if(request.times[i].webname == firstHref){
-          request.times[i].start_time = new Date().getTime();
-          isIn = 1;
-          index = i;
-          // alert("I know I've been gone a long time bot");
-        }
+      var index = firstHref;
+      if(request.times[firstHref] != undefined){
+        request.times[firstHref].start_time = new Date().getTime();
+        // alert("I know I've been gone a long time bot");
       }
       // check to make sure the object hasn't been seen before
-      if(isIn == 0){
+      if(!(firstHref in request.times)){
         var website = {
           webname: firstHref,
           favicon: ("\"http://www.google.com/s2/favicons?domain=" + fav + "\""),
           start_time: new Date().getTime(),
           total_time: 0,
           prev_total_time: 0 };
-        request.times.push(website);
-        index = request.times.length-1;
+
+        request.times[firstHref] = website;
       }
 
       //console.log(firstHref);
       console.log("Hello");
-      // alert("I'm back and I want what is mine");
       chrome.runtime.sendMessage({"message": "track_tab", "url": firstHref, "times":request.times, "index": index});
   }
    }

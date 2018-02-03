@@ -1,16 +1,16 @@
 
 var chart = [];
-var times = [];
+var times = {};
 var activeTab;
-var timesIndex = 0;
+var timesIndex;
 var currentDomain;
 
 function backgroundfunction_times(){
-  console.log("yo....")
-  times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
-  times[timesIndex].start_time = new Date().getTime();
-  chrome.storage.sync.set({'stored_times': times});
-  return {"times": times, "chart": chart};
+  return {"times":times};
+  // times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
+  // times[timesIndex].start_time = new Date().getTime();
+  // chrome.storage.sync.set({'stored_times': times});
+  // return {"times": times, "chart": chart};
 }
 
 chrome.windows.onFocusChanged.addListener(function(windowId) {
@@ -88,8 +88,8 @@ chrome.runtime.onMessage.addListener(
       if(timesIndex != request.index){
         chart.push([{'x': times[timesIndex].webname, "y": (times[timesIndex].total_time -times[timesIndex].prev_total_time)}]);
       }
-        timesIndex = request.index;
-      // alert(request.url);
+      timesIndex = request.index;
+      alert(request.url);
       return true;
     }
   }
@@ -99,29 +99,21 @@ function updateTime(){
   if(times.length == 0){
     return;
   }
-  for(i = 0; i<times.length; i++){
-        if(times[i].webname == currentDomain){
-          times[i].total_time = times[i].total_time + (new Date().getTime() - times[i].start_time);
-          times[i].start_time = new Date().getTime();
-          timesIndex = i;
-          var cool = (times[i].webname + ": " + times[i].total_time/1000);
-          console.log(cool);
-          chrome.storage.sync.set({'stored_times': times});
-          return;
-        }
-      }
+  times[currentDomain].total_time = times[currentDomain].total_time + (new Date().getTime() - times[currentDomain].start_time);
+  times[currentDomain].start_time = new Date().getTime();
+  timesIndex = currentDomain;
+  var cool = (times[currentDomain].webname + ": " + times[currentDomain].total_time/1000);
+  console.log(cool);
+  chrome.storage.sync.set({'stored_times': times});
+  return;
 }
 
 function initTime(){
   if(times.length == 0){
     return;
   }
-  for(i = 0; i<times.length; i++){
-        if(times[i].webname == currentDomain){
-          times[i].start_time = new Date().getTime();
-          timesIndex = i;
-          var cool = (times[i].webname + ": " + times[i].total_time/1000);
-          return;
-        }
-      }
+  times[currentDomain].start_time = new Date().getTime();
+  timesIndex = currentDomain;
+  var cool = (times[currentDomain].webname + ": " + times[currentDomain].total_time/1000);
+  return;
 }
