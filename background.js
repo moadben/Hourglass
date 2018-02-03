@@ -86,7 +86,7 @@ chrome.runtime.onMessage.addListener(
       times = request.times;
       currentDomain = request.url;
       if(timesIndex != request.index){
-        chart.push([times[timesIndex].webname, (times[timesIndex].total_time -times[timesIndex].prev_total_time)]);
+        chart.push([{'x': times[timesIndex].webname, "y": (times[timesIndex].total_time -times[timesIndex].prev_total_time)}]);
       }
         timesIndex = request.index;
       // alert(request.url);
