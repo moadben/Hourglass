@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(
       var firstHref = window.location.hostname;
       var fav = firstHref;
       console.log(firstHref);
-      if(firstHref=="www.google.ca"){
+      if(firstHref.includes("www.google")){
         fav="www.google.com";
       }
       var index;
