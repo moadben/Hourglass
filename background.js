@@ -43,7 +43,6 @@ chrome.windows.onCreated.addListener(function(windowId){
 chrome.runtime.onStartup.addListener(function(){
       chrome.storage.sync.get('stored_times',function(items){
         times = items.stored_times;
-        alert(items.stored_times);
       });
 });
 
@@ -124,7 +123,6 @@ function updateTime(){
   }
   if(prevDomain != currentDomain){
     times[currentDomain].prev_total_time = times[currentDomain].total_time;
-    console.log(currentDomain)
   }
   times[currentDomain].total_time = times[currentDomain].total_time + (new Date().getTime() - times[currentDomain].start_time);
   times[currentDomain].start_time = new Date().getTime();
@@ -141,6 +139,5 @@ function initTime(){
   }
   times[currentDomain].start_time = new Date().getTime();
   timesIndex = currentDomain;
-  var cool = (times[currentDomain].webname + ": " + times[currentDomain].total_time/1000);
   return;
 }

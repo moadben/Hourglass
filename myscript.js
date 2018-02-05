@@ -4,6 +4,7 @@
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+    
     // check request message
      if( request.message === "tab_changed" ) {
       var firstHref = window.location.hostname;
@@ -24,7 +25,6 @@ chrome.runtime.onMessage.addListener(
       var index = firstHref;
       if(request.times[firstHref] != undefined){
         request.times[firstHref].start_time = new Date().getTime();
-        // alert("I know I've been gone a long time bot");
       }
       // check to make sure the object hasn't been seen before
       if(!(firstHref in request.times)){
@@ -38,8 +38,7 @@ chrome.runtime.onMessage.addListener(
         request.times[firstHref] = website;
       }
 
-      //console.log(firstHref);
-      console.log("Hello");
+
       chrome.runtime.sendMessage({"message": "track_tab", "url": firstHref, "times":request.times, "index": index});
   }
    }
