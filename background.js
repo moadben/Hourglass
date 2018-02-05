@@ -85,7 +85,9 @@ chrome.runtime.onMessage.addListener(
       times = request.times;
       currentDomain = request.url;
       if(timesIndex!=undefined && timesIndex != request.index){
-        console.log(times[timesIndex].prev_total_time);
+        if(chart.length==10){
+          chart.pop();
+        }
         chart.push({ "y": ((times[timesIndex].total_time - times[timesIndex].prev_total_time)/1000), "label": times[timesIndex].webname,});
       }
       timesIndex = request.index;
