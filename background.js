@@ -5,6 +5,7 @@ var activeTab;
 var timesIndex = "";
 var currentDomain;
 var prevDomain;
+var chartCount = 1;
 // GLOBAL VARIABLES USED THROUGHOUT BACKGROUND.JS //
 
 
@@ -107,7 +108,8 @@ chrome.runtime.onMessage.addListener(
         if(chart.length==10){
           chart.shift();
         }
-        chart.push({ "y": ((times[timesIndex].total_time - times[timesIndex].prev_total_time)/1000), "label": times[timesIndex].webname});
+        chart.push({ "y": ((times[timesIndex].total_time - times[timesIndex].prev_total_time)/1000), "label": times[timesIndex].webname, "x": chartCount});
+        chartCount++;
       }
       timesIndex = request.index;
       return true;
