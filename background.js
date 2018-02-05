@@ -6,6 +6,7 @@ var timesIndex = "";
 var currentDomain;
 
 function backgroundfunction_times(){
+  times[timesIndex].prev_total_time = times[timesIndex].total_time;
   times[timesIndex].total_time = times[timesIndex].total_time + (new Date().getTime() - times[timesIndex].start_time);
   times[timesIndex].start_time = new Date().getTime();
   chrome.storage.sync.set({'stored_times': times});
@@ -84,7 +85,7 @@ chrome.runtime.onMessage.addListener(
       times = request.times;
       currentDomain = request.url;
       if(timesIndex!=undefined && timesIndex != request.index){
-        chart.push({ "y": (times[timesIndex].total_time -times[timesIndex].prev_total_time)/1000, "label": times[timesIndex].webname,});
+        chart.push({ "y": (times[timesIndex].total_time - times[timesIndex].prev_total_time), "label": times[timesIndex].webname,});
       }
       timesIndex = request.index;
       return true;
@@ -96,6 +97,7 @@ function updateTime(){
   if(Object.keys(times).length == 0){
     return;
   }
+  times[currentDomain].prev_total_time = times[currentDomain].total_time;
   times[currentDomain].total_time = times[currentDomain].total_time + (new Date().getTime() - times[currentDomain].start_time);
   times[currentDomain].start_time = new Date().getTime();
   timesIndex = currentDomain;

@@ -17,15 +17,11 @@
             animationEnabled: true,
             theme: "light2",
             title:{
-                text: "Web flow"
+                text: "Browsing timeline"
             },
-            // axisX:{
-            //     title: "Website",
-            //     crosshair: {
-            //         enabled: true,
-            //         snapToDataPoint: true
-            //     }
-            // },
+            axisX:{
+                title: "Website"
+            },
             axisY: {
                 title: "Time spent (in seconds)",
                 includeZero: false,
